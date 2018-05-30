@@ -10,10 +10,10 @@ export default [
     alias: '/topics',
     component: () => import('@/views/Home')
   },
-  {
-    path: '*',
-    redirect: '/'
-  },
+  // {
+  //   path: '*',
+  //   redirect: '/'
+  // },
   {
     path: '/auth/login',
     name: 'Login',

@@ -5,7 +5,7 @@ import routes from './routes'
 Vue.use(Router)
 
 const router = new Router({
-  mode: 'history',
+  // mode: 'history',
   linkExactActiveClass: 'active',
   scrollBehavior(to, from, savedPosition) {
     if (to.hash) {
