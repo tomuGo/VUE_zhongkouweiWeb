@@ -2,9 +2,8 @@
   <div class="navbar navbar-default topnav">
     <div class="container">
       <div class="navbar-header" >
-        <el-menu  text-color="blue" active-text-color="red" class="el-menu-demo" mode="horizontal" :router="true" @open="handleOpen"
-                  @close="handleClose">
-            <el-menu-item  v-for="(item) in titles" :key="item.name" :route="item.path" :index= "item.path"  >{{item.name}}</el-menu-item>
+        <el-menu  text-color="blue" active-text-color="red" class="el-menu-demo" mode="horizontal" :router="true">
+            <el-menu-item  v-for="(item) in titles" :key="item.name" :route="item.path" :index= "item.path" >{{item.name}}</el-menu-item>
         </el-menu>
       </div>
 
@@ -35,7 +34,7 @@ export default {
   data() {
     return {
       titles: [
-        {title: 'movie', name: '电影', path: '/auth/register'},
+        {title: 'movie', name: '电影', path: '/movie'},
         {title: 'cartoon', name: '漫画',path: '/cartoon'},
         {title: 'roast', name: '吐槽',path: '/roast'}
       ],
@@ -43,6 +42,7 @@ export default {
       showCollapsedNav: false
     }
   }
+
 }
 </script>
 

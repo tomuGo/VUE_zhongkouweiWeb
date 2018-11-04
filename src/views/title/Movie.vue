@@ -62,11 +62,10 @@ export default {
       articles: [],
       filter: 'default',
       filters: [
-        { filter: 'default', name: '活跃', title: '最后回复排序'},
-        { filter: 'excellent', name: '精华', title: '只看加精的话题'},
-        { filter: 'vote', name: '投票', title: '点赞数排序'},
-        { filter: 'recent', name: '最近', title: '发布时间排序'},
-        { filter: 'noreply', name: '零回复', title: '无人问津的话题'}
+        { filter: '欧美', name: '欧美', title: '最后回复排序'},
+        { filter: '日韩泰', name: '日韩泰', title: '只看加精的话题'},
+        { filter: '大陆', name: '大陆', title: '点赞数排序'},
+        { filter: '其他', name: '其他', title: '发布时间排序'},
       ],
       total: 0, // 文章总数
       pageSize: 20, // 每页条数

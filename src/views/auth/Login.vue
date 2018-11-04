@@ -28,6 +28,8 @@
 </template>
 
 <script>
+  import axios from '@/plugins/axios'
+  //import axios from 'axios'
 export default {
   name: 'Login',
   data() {
@@ -41,30 +43,8 @@ export default {
   },
   methods: {
     login(e) {
-      this.$nextTick(() => {
-        const target = e.target.type === 'submit' ? e.target : e.target.parentElement
+      axios.get(`/api/login`, {params: {account: this.username, password: this.password}});
 
-        if (target.canSubmit) {
-          this.submit()
-        }
-      })
-    },
-    submit() {
-      const user = {
-        name: this.username,
-        password: this.password
-      }
-      const localUser = this.$store.state.user
-
-      if (localUser) {
-        if (localUser.name !== user.name || localUser.password !== user.password) {
-          this.showMsg('用户名或密码不正确')
-        } else {
-          this.$store.dispatch('login')
-        }
-      } else {
-        this.showMsg('不存在该用户')
-      }
     },
     showMsg(msg, type = 'warning') {
       this.msg = msg

@@ -10,6 +10,22 @@ export default [
     alias: '/topics',
     component: () => import('@/views/Home')
   },
+  {
+    path: '/movie',
+    name: 'Movie',
+    component: () => import('@/views/title/Movie')
+  },
+  {
+    path: '/cartoon',
+    name: 'Cartoon',
+    component: () => import('@/views/title/Cartoon')
+  },
+  {
+    path: '/roast',
+    name: 'Roast',
+    component: () => import('@/views/title/Roast')
+  },
+
   // {
   //   path: '*',
   //   redirect: '/'
