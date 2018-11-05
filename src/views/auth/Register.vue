@@ -9,8 +9,12 @@
 
         <div class="panel-body" data-validator-form>
           <div class="form-group">
-            <label class="control-label">用户名</label>
+            <label class="control-label">用户名</label><span style="color: red"> * </span>
             <input v-model.trim="username" v-validator:input.required="{ regex: /^[a-zA-Z]+\w*\s?\w*$/, error: '用户名要求以字母开头的单词字符' }" type="text" class="form-control" placeholder="请填写用户名">
+          </div>
+          <div class="form-group">
+            <label class="control-label">邮箱（用于找回密码）</label>
+            <input v-model.trim="email" v-validator:input.required="{ regex: /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/, error: '邮箱不符合格式' }" type="text" class="form-control">
           </div>
           <div class="form-group">
             <label class="control-label">密码</label>
@@ -19,13 +23,6 @@
           <div class="form-group">
             <label class="control-label">确认密码</label>
             <input v-model.trim="cpassword" v-validator.required="{ target: '#password' }" type="password" class="form-control" placeholder="请填写确认密码">
-          </div>
-          <div class="form-group">
-            <label class="control-label">图片验证码</label>
-            <input v-model.trim="captcha" v-validator.required="{ title: '图片验证码' }" type="text" class="form-control" placeholder="请填写验证码">
-          </div>
-          <div class="thumbnail" title="点击图片重新获取验证码" @click="getCaptcha">
-            <div class="captcha vcenter" v-html="captchaTpl"></div>
           </div>
           <button type="submit" class="btn btn-lg btn-success btn-block" @click="register">
             <i class="fa fa-btn fa-sign-in"></i> 注册
@@ -44,26 +41,18 @@ export default {
   name: 'Register',
   data() {
     return {
-      captchaTpl: '', // 验证码模板
+
       username: '', // 用户名
+      email: '',
       password: '', // 密码
       cpassword: '', // 确认密码
-      captcha: '', // 验证码
-      msg: '', // 消息
-      msgType: '', // 消息类型
-      msgShow: false // 是否显示消息，默认不显示
+
     }
   },
   created() {
-    this.getCaptcha()
+
   },
   methods: {
-    getCaptcha() {
-      const { tpl, captcha } = createCaptcha(6)
-
-      this.captchaTpl = tpl
-      this.localCaptcha = captcha
-    },
     register(e) {
       this.$nextTick(() => {
         const target = e.target.type === 'submit' ? e.target : e.target.parentElement
@@ -74,15 +63,13 @@ export default {
       })
     },
     submit() {
-      if (this.captcha.toUpperCase() !== this.localCaptcha) {
-        this.showMsg('验证码不正确')
-        this.getCaptcha()
-      } else {
+
         const user = {
           name: this.username,
           password: this.password,
           avatar: `https://api.adorable.io/avatars/200/${this.username}.png`
         }
+
         const localUser = this.$store.state.user
 
         if (localUser) {
@@ -94,7 +81,7 @@ export default {
         } else {
           this.login(user)
         }
-      }
+
     },
     login(user) {
       this.$store.dispatch('login', user)

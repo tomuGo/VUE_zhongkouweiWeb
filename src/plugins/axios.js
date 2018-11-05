@@ -1,6 +1,6 @@
 import axios from 'axios'
 import {getCookie, delCookie} from '@/utils/util'
-import Notification from 'element-ui'
+import {Notification, Message} from 'element-ui'
 
 let options = {
   timeout: 80000, //  超时时间
@@ -41,11 +41,9 @@ return config
 })
 
 axiosInstance.interceptors.response.use(response => {
-}, (error) => {
+  return Promise.resolve(response.data)
+},(error) => {
   let data = error.response.data
-  // API 返回401 就删除cookie
-  // 跳转到登陆页面
-  // api 接口返回未登陆
   if (error.response.status === 401) {
     delCookie('token')
     window.location = '/auth/login'

@@ -17,6 +17,17 @@ export default {
   components: {
     TheHeader,
     TheFooter
+  },
+  data () {
+    return {
+      isRouterAlive: true
+    }
+  },
+  methods: {
+    reload () {
+      this.isRouterAlive = false
+      this.$nextTick(() => (this.isRouterAlive = true))
+    }
   }
 }
 </script>

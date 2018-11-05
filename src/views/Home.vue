@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Message :show.sync="msgShow" :type="msgType" :msg="msg"/>
     <div class="col-md-9 topics-index main-col">
       <div class="panel panel-default">
         <div class="panel-heading">
