@@ -37,7 +37,6 @@ const mutations = {
 
 const actions = {
   login({ commit }, user) {
-    debugger
     if (user) commit('UPDATE_USER', user)
       commit('UPDATE_AUTH', true)
       router.push('/')

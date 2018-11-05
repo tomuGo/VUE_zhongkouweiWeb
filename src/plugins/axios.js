@@ -41,7 +41,16 @@ return config
 })
 
 axiosInstance.interceptors.response.use(response => {
-  return Promise.resolve(response.data)
+  let status=response.data.status;
+  if(status===200){
+    return Promise.resolve(response.data.resultObject)
+  }else {
+    Notification.error({
+      title: '温馨提示',
+      message: response.data.resultObject || '彩笔作者,怪我咯'
+    })
+  }
+
 },(error) => {
   let data = error.response.data
   if (error.response.status === 401) {

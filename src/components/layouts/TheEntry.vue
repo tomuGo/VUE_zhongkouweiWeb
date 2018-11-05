@@ -31,7 +31,7 @@
             </router-link>
           </li>
           <li>
-            <router-link to="/users/1/edit">
+            <router-link to="/users/${user.userId}/edit">
               <i class="fa fa-cog text-md i-middle"></i>
               编辑资料
             </router-link>
