@@ -36,7 +36,7 @@ export default [
     component: () => import('@/views/auth/Login')
   },
   {
-    path: '/users/1/edit',
+    path: '/users/:id/edit',
     component: () => import('@/views/users/Edit.vue'),
     children: [
       {
@@ -46,13 +46,13 @@ export default [
         meta: { auth: true }
       },
       {
-        path: '/users/1/edit_avatar',
+        path: '/users/:id/edit_avatar',
         name: 'EditAvatar',
         component: () => import('@/views/users/Avatar.vue'),
         meta: { auth: true }
       },
       {
-        path: '/users/1/edit_password',
+        path: '/users/:id/edit_password',
         name: 'EditPassword',
         component: () => import('@/views/users/Password.vue'),
         meta: { auth: true }
@@ -77,7 +77,7 @@ export default [
     component: () => import('@/views/Search')
   },
  {
-  path: '/:user',
+  path: '/:userId',
   component: () => import('@/views/articles/Column'),
     children: [
       {

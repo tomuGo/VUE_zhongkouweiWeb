@@ -6,21 +6,27 @@
         <hr>
         <div class="form-horizontal" data-validator-form>
           <div class="form-group">
-            <label class="col-sm-2 control-label">密 码</label>
+            <label class="col-sm-2 control-label">原 密 码</label>
             <div class="col-sm-6">
-              <input v-model.trim="password" id="password" v-validator.required="{ regex: /^\w{6,16}$/, error: '密码要求 6 ~ 16 个单词字符' }" type="password" class="form-control" placeholder="请填写密码">
+              <input v-model.trim="oldPassword" id="password" v-validator.required="{ regex: /^\w{3,16}$/, error: '密码要求 6 ~ 16 个单词字符' }" type="password" class="form-control" placeholder="请填写原密码">
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 control-label">确认密码</label>
+            <label class="col-sm-2 control-label">新 密 码</label>
             <div class="col-sm-6">
-              <input v-model.trim="cpassword" v-validator.required="{ title: '确认密码', target: '#password' }" type="password" class="form-control">
+              <input v-model.trim="newPassword" id="newPassword" v-validator.required="{ regex: /^\w{6,16}$/, error: '密码要求 6 ~ 16 个单词字符' }" type="password" class="form-control" placeholder="填写新密码">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">确认新密码</label>
+            <div class="col-sm-6">
+              <input v-model.trim="cobyNewPassword" v-validator.required="{ title: '确认密码', target: '#newPassword' }" type="password" class="form-control" placeholder="确认新密码">
             </div>
           </div>
 
           <div class="form-group">
             <div class="col-sm-offset-2 col-sm-6">
-              <button type="submit" class="btn btn-primary" @click="updatePassword">应用修改</button>
+              <button type="submit" class="btn btn-primary" @click="updatePassword">修改</button>
             </div>
           </div>
         </div>
@@ -30,27 +36,24 @@
 </template>
 
 <script>
+import axios from '@/plugins/axios'
 export default {
   name: 'EditPassword',
   data() {
     return {
-      password: '', // 密码
-      cpassword: '' // 确认密码
-    }
-  },
-  created() {
-    const user = this.$store.state.user
+      oldPassword: '',
+      newPassword: '',
+      cobyNewPassword:''
 
-    if (user && typeof user === 'object') {
-      this.password = user.password
     }
   },
   methods: {
     updatePassword(e) {
       this.$nextTick(() => {
         if (e.target.canSubmit) {
-          this.$store.dispatch('updateUser', { password: this.cpassword })
-          this.$message.show('修改成功')
+            axios.get(`/api/user/${this.$route.params.id}/updatePassword`,{params: {oldPassword: this.oldPassword, newPassword: this.newPassword}}).then(()=>{
+              //todo 跳哪里呢
+            })
         }
       })
     }
