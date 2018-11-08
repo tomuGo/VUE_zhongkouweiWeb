@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Message :show.sync="msgShow" :type="msgType" :msg="msg"/>
     <div class="col-md-9 topics-index main-col">
       <div class="panel panel-default">
         <div class="panel-heading">
@@ -45,9 +44,8 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import TheSidebar from '@/components/layouts/TheSidebar'
-
+import axios from '@/plugins/axios'
 export default {
   name: 'Home',
   components: {
@@ -56,75 +54,25 @@ export default {
   },
   data() {
     return {
-      msg: '',
-      msgType: '',
-      msgShow: false,
       articles: [],
       filter: 'default',
       filters: [
-        { filter: '欧美', name: '欧美', title: '最后回复排序'},
-        { filter: '日韩泰', name: '日韩泰', title: '只看加精的话题'},
-        { filter: '大陆', name: '大陆', title: '点赞数排序'},
-        { filter: '其他', name: '其他', title: '发布时间排序'},
+        { blogType:'1A',filter: 'default', name: '欧美', title: 'ARE U OK ?'},
+        { blogType:'1B',filter: 'excellent', name: '日韩泰', title: '雅蠛蝶'},
+        { blogType:'1C',filter: 'vote', name: '大陆', title: '①'},
+        { blogType:'1D',filter: 'noreply', name: '其他', title: '￥#*·~f'},
       ],
       total: 0, // 文章总数
       pageSize: 20, // 每页条数
     }
   },
-  beforeRouteEnter(to, from, next) {
-    const fromName = from.name
-    const logout = to.params.logout
-
-    next(vm => {
-      if (vm.$store.state.auth) {
-        switch (fromName) {
-          case 'Register':
-            vm.showMsg('注册成功')
-            break
-          case 'Login':
-            vm.showMsg('登录成功')
-            break
-        }
-      } else if (logout) {
-        vm.showMsg('操作成功')
-      }
-
-      vm.setDataByFilter(to.query.filter)
+  beforeRouteEnter (to, from, next) {
+    axios.get(`/blog/blog`,{params: {blogType: '1A',pageNumber:1,pageSize:20}}).then((res) => {
+      this.articles=res
     })
   },
-  init(){
-    debugger
-    const params = this.$route.params
-    // 获取当前模型的信息
-    const query = this.$route.query
-    debugger
-  },
-  computed: {
-    ...mapState([
-      'auth',
-      'user'
-    ]),
-    // 当前页，从查询参数 page 返回
-    currentPage() {
-      return parseInt(this.$route.query.page) || 1
-    }
-  },
-  watch: {
-    auth(value) {
-      if (!value) {
-        this.showMsg('操作成功')
-      }
-    },
-    '$route'(to) {
-      this.setDataByFilter(to.query.filter)
-    }
-  },
   methods: {
-    showMsg(msg, type = 'success') {
-      this.msg = msg
-      this.msgType = type
-      this.msgShow = true
-    },
+
     setDataByFilter(filter = 'default') {
       // 每页条数
       const pageSize = this.pageSize

@@ -12,10 +12,12 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="control-label">邮箱（用于找回密码）</label>
+            <label class="col-sm-2 control-label">邮箱（用于找回密码）</label>
+            <div class="col-sm-6">
             <input v-model.trim="user.email"
                    v-validator:input="{ regex: /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/, error: '邮箱不符合格式' }"
                    type="text" class="form-control">
+            </div>
           </div>
           <div class="form-group">
             <label class="col-sm-2 control-label">性别</label>
