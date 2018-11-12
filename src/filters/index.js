@@ -1,4 +1,11 @@
 import Vue from 'vue'
-import moment from './moment'
+import time from './time'
 
-Vue.filter('moment', moment)
+const filters = {
+  time
+}
+
+// 注册filters到Vue
+for (let key in filters) {
+  Vue.filter(key, filters[key])
+}

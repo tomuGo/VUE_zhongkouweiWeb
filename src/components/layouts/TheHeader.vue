@@ -1,11 +1,11 @@
 <template>
   <div class="navbar navbar-default topnav">
     <div class="container">
-      <div class="navbar-header" >
+      <!--<div class="navbar-header" >
         <el-menu  text-color="blue" active-text-color="red" class="el-menu-demo" mode="horizontal" :router="true">
             <el-menu-item  v-for="(item) in titles" :key="item.name" :route="item.path" :index= "item.path" >{{item.name}}</el-menu-item>
         </el-menu>
-      </div>
+      </div>-->
 
       <div id="top-navbar-collapse" :class="['collapse', 'navbar-collapse', { in: showCollapsedNav }]">
         <div class="navbar-right">

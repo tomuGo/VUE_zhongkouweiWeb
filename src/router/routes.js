@@ -10,7 +10,7 @@ export default [
     alias: '/topics',
     component: () => import('@/views/Home')
   },
-  {
+  /*{
     path: '/movie',
     name: 'Movie',
     component: () => import('@/views/title/Movie')
@@ -24,7 +24,7 @@ export default [
     path: '/roast',
     name: 'Roast',
     component: () => import('@/views/title/Roast')
-  },
+  },*/
 
   // {
   //   path: '*',
@@ -86,7 +86,7 @@ export default [
         component: () => import('@/views/articles/List.vue')
       },
       {
-        path: '/articles/:articleId/content',
+        path: '/blogs/:blogId/content',
         name: 'Content',
         component: () => import('@/views/articles/Content.vue')
       }
