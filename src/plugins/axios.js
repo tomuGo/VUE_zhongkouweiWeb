@@ -43,10 +43,10 @@ return config
 axiosInstance.interceptors.response.use(response => {
   let status=response.data.status;
   if(status===200){
-    return Promise.resolve(response.data.resultObject)
+    return Promise.resolve({headers: response.headers, ...(response.data || {})})
   }else {
     Notification.error({
-      title: '温馨提示',
+      title: '重口提示',
       message: response.data.resultObject || '彩笔作者,怪我咯'
     })
   }

@@ -8,13 +8,13 @@
           <div class="form-group">
             <label class="col-sm-2 control-label">用户名</label>
             <div class="col-sm-6">
-              <input v-model.trim="user.username" v-validator:input.required="{ title: '用户名', regex: /^[\w\u4e00-\u9fa5]+$/, error: '用户名只能由汉字/数字/字母/下划线/中划线组成' }" type="text" class="form-control">
+              <input v-model.trim="userInfo.username" v-validator:input.required="{ title: '用户名', regex: /^[\w\u4e00-\u9fa5]+$/, error: '用户名只能由汉字/数字/字母/下划线/中划线组成' }" type="text" class="form-control">
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-2 control-label">邮箱（用于找回密码）</label>
             <div class="col-sm-6">
-            <input v-model.trim="user.email"
+            <input v-model.trim="userInfo.email"
                    v-validator:input="{ regex: /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/, error: '邮箱不符合格式' }"
                    type="text" class="form-control">
             </div>
@@ -22,7 +22,7 @@
           <div class="form-group">
             <label class="col-sm-2 control-label">性别</label>
             <div class="col-sm-6">
-              <select v-model="user.sex" class="form-control">
+              <select v-model="userInfo.sex" class="form-control">
                 <option value="">未选择</option>
                 <option value=1 >男</option>
                 <option value=0 >女</option>
@@ -32,7 +32,7 @@
           <div class="form-group">
             <label class="col-sm-2 control-label">个人简介</label>
             <div class="col-sm-6">
-              <textarea v-model.trim="user.introduction" type="text" class="form-control"></textarea>
+              <textarea v-model.trim="userInfo.introduction" type="text" class="form-control"></textarea>
             </div>
           </div>
 
@@ -49,29 +49,29 @@
 
 <script>
   import axios from '@/plugins/axios'
+  import {mapState} from 'vuex'
 export default {
   name: 'EditProfile',
   data() {
     return {
-      user:{}
+      userInfo:''
     }
   },
-  beforeRouteEnter (to, from, next) {
-    const params = to.params
-    axios.get(`/api/user/${params.id}`).then((res) => {
-      next(vm => vm.setData(res))
-    })
+  computed: {
+    ...mapState([
+      'user'
+    ])
+  },
+  created(){
+    this.userInfo=this.user;
   },
   methods: {
-    setData (data) {
-      this.user = data
-    },
     updateUserInfo(e) {
       this.$nextTick(() => {
-        if (e.target.canSubmit) {
-          axios.put(`/api/user/${this.params.id}`).then(()=>{
+        if (e.target.canSubmit && this.user.userId) {
+          axios.put('/api/user/'+this.user.userId,this.userInfo).then(()=>{
             //todo 跳转到个人中心
-            this.$store.dispatch('login', data.user)
+            //this.$store.dispatch('login', data.user)
           })
 
         }

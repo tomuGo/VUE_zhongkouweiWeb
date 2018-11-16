@@ -4,7 +4,7 @@
       <div class="box">
         <div class="padding-md">
           <div class="list-group text-center">
-            <router-link v-for="link in links" :key="link.name" :to="`/users/${params.id}/${link.name}`" class="list-group-item">
+            <router-link v-for="link in links" :key="link.name" :to="`/users/${user.userId}/${link.name}`" class="list-group-item">
               <i :class="`text-md fa fa-${link.icon}`"></i>
               {{ link.title }}
             </router-link>
@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
   name: 'UsersEdit',
   data() {
@@ -42,17 +43,11 @@ export default {
       params: this.$route.params
     }
   },
-  created () {
-    /*const params = this.$route.params
-    console.log(params)*/
-    // 获取当前模型的信息
-    /*const query = this.$route.query
-    query.userType = parseInt(query.userType)*/
-    /*axios.get(`/api/user/${params.id}`).then((res) => {
-
-      console.log(res)
-    })*/
-  },
+  computed: {
+    ...mapState([
+      'user'
+    ])
+  }
 }
 </script>
 

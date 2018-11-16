@@ -48,8 +48,8 @@ export default {
     },
     submit() {
       axios.get(`/api/login`, {params: {account: this.username, password: this.password}}).then((data) => {
-
-        this.$store.dispatch('login', data.user)
+        setCookie('token', data.headers.token)
+        this.$store.dispatch('login', data.resultObject.user)
       });
     }
   }

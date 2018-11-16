@@ -11,7 +11,7 @@
 
           <ul class="list-inline topic-filter">
             <li v-for="item in filters">
-                <el-button autofocus round type="info" icon="el-icon-menu" size="medium" @click="getBlogs(item.blogType)" v-title="item.title">{{ item.name }}</el-button>
+                <el-button autofocus round type="item.type" icon="el-icon-menu" size="medium" @click="getBlogs(item.blogType)" v-title="item.title">{{ item.name }}</el-button>
             </li>
           </ul>
           <div class="clearfix"></div>
@@ -19,7 +19,7 @@
 
         <div class="panel-body remove-padding-horizontal">
           <ul class="list-group row topic-list">
-            <li v-for="article in articles" :key="article.blogId" class="list-group-item">
+            <li v-for="(article,index) in articles" :key="article.blogId" class="list-group-item" >
               <router-link :to="`/blogs/${article.blogId}`" tag="div" class="reply_count_area hidden-xs pull-right">
                 <div class="count_set">
                   <span class="count_of_votes" title="投票数">{{ article.likeUsers ? article.likeUsers.length : 0 }}</span>
@@ -32,9 +32,12 @@
              <router-link :to="`/${article.uname}`" tag="div" class="avatar pull-left">
                <img :src="article.uavatar" class="media-object img-thumbnail avatar avatar-middle">
              </router-link>
-              <router-link :to="`/articles/${article.blogId}/content`" tag="div" class="infos">
-                <div class="media-heading">
-                  {{ article.blogName }}
+              <router-link :to="`/blogs/${article.blogId}`" tag="div" class="infos">
+                <div class="media-heading ">
+                  <el-badge v-if="article.boutique===1" value="精" class="item">
+                    {{ article.blogName }}
+                  </el-badge>
+                  <span v-else>{{ article.blogName }}</span>
                 </div>
               </router-link>
             </li>
@@ -46,7 +49,7 @@
             layout="total, prev, pager, next, jumper"
             @current-change="getBlogs"
             :page-size="pageSize"
-            :page-count="currentPage"
+            :page-count="pageNumber"
             :total="total">
           </el-pagination>
         </div>
@@ -81,7 +84,7 @@ export default {
       ],
       total: 0, // 文章总数
       pageSize: 20, // 每页条数
-      currentPage:1
+      pageNumber:0
     }
   },
   mounted:function () {
@@ -89,9 +92,9 @@ export default {
   },
   methods: {
     getBlogs(blogType){
-      axios.get("/blog/blog",{params: {pageNumber: this.currentPage-1, pageSize: this.pageSize,blogType:blogType}}).then((res)=>{
-        this.articles=res.content;
-        this.total=res.totalElements;
+      axios.get("/blog/blog",{params: {pageNumber: this.pageNumber, pageSize: this.pageSize,blogType:blogType}}).then((res)=>{
+        this.articles=res.resultObject.content;
+        this.total=res.resultObject.totalElements;
       });
     }
   }
@@ -99,5 +102,6 @@ export default {
 </script>
 
 <style scoped>
-
+.color{background-color: #afd9ee}
+.colorS{background-color:#06b3b4}
 </style>

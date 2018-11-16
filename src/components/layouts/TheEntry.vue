@@ -1,6 +1,6 @@
 <template>
   <div class="navbar-right">
-    <ul v-if="auth" class="nav navbar-nav github-login">
+    <ul v-if="isAuth" class="nav navbar-nav github-login">
       <li>
         <a v-dropdown href="javascript:;">
           <i class="fa fa-plus text-md"></i>
@@ -61,13 +61,10 @@
     names: '',
     computed: {
       ...mapState([
-        'auth',
+        'isAuth',
         'user'
       ])
     },
-    /*data() {
-      return {auth: getCookie("userName")}
-    },*/
     methods: {
       logout() {
         this.$swal({

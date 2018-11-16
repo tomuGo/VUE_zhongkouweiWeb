@@ -10,52 +10,32 @@ export default [
     alias: '/topics',
     component: () => import('@/views/Home')
   },
-  /*{
-    path: '/movie',
-    name: 'Movie',
-    component: () => import('@/views/title/Movie')
-  },
-  {
-    path: '/cartoon',
-    name: 'Cartoon',
-    component: () => import('@/views/title/Cartoon')
-  },
-  {
-    path: '/roast',
-    name: 'Roast',
-    component: () => import('@/views/title/Roast')
-  },*/
-
-  // {
-  //   path: '*',
-  //   redirect: '/'
-  // },
   {
     path: '/auth/login',
     name: 'Login',
     component: () => import('@/views/auth/Login')
   },
   {
-    path: '/users/:id/edit',
+    path: '/users/:userId/edit',
     component: () => import('@/views/users/Edit.vue'),
     children: [
       {
         path: '',
         name: 'EditProfile',
         component: () => import('@/views/users/Profile.vue'),
-        meta: { auth: true }
+        meta: { isAuth: true }
       },
       {
-        path: '/users/:id/edit_avatar',
+        path: '/users/:userId/edit_avatar',
         name: 'EditAvatar',
         component: () => import('@/views/users/Avatar.vue'),
-        meta: { auth: true }
+        meta: { isAuth: true }
       },
       {
-        path: '/users/:id/edit_password',
+        path: '/users/:userId/edit_password',
         name: 'EditPassword',
         component: () => import('@/views/users/Password.vue'),
-        meta: { auth: true }
+        meta: { isAuth: true }
       }
     ]
   },
@@ -63,18 +43,23 @@ export default [
     path: '/articles/create',
     name: 'Create',
     component: () => import('@/views/articles/Create'),
-    meta: { auth: true }
+    meta: { isAuth: true }
   },
   {
     path: '/articles/:articleId/edit',
     name: 'Edit',
     component: () => import('@/views/articles/Create'),
-    meta: { auth: true }
+    meta: { isAuth: true }
   },
   {
     path: '/search',
     name: 'Search',
     component: () => import('@/views/Search')
+  },
+  {
+    path: '/blogs/:blogId',
+    name: 'Content',
+    component: () => import('@/views/articles/Content.vue')
   },
  {
   path: '/:userId',
@@ -86,7 +71,7 @@ export default [
         component: () => import('@/views/articles/List.vue')
       },
       {
-        path: '/blogs/:blogId/content',
+        path: '/blogs/:blogId',
         name: 'Content',
         component: () => import('@/views/articles/Content.vue')
       }

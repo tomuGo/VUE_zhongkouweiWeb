@@ -9,7 +9,8 @@ Vue.use(Vuex)
 
 const state = {
   user: ls.getItem('user'),
-  auth: ls.getItem('auth'),
+  isAuth: ls.getItem('isAuth'),
+  isAdmin: ls.getItem('isAdmin'),
   articles: ls.getItem('articles'),
   searchValue: '',
   origin: location.origin
@@ -22,9 +23,9 @@ const mutations = {
     state.user = user
     ls.setItem('user', user)
   },
-  UPDATE_AUTH(state, auth) {
-    state.auth = auth
-    ls.setItem('auth', auth)
+  UPDATE_AUTH(state, isAuth) {
+    state.isAuth = isAuth
+    ls.setItem('isAuth', isAuth)
   },
   UPDATE_ARTICLES(state, articles) {
     state.articles = articles
@@ -37,12 +38,12 @@ const mutations = {
 
 const actions = {
   login({ commit }, user) {
-    if (user) commit('UPDATE_USER', user)
-      commit('UPDATE_AUTH', true)
+    if (user) commit('UPDATE_USER', user);
+      commit('UPDATE_AUTH', true);
       router.push('/')
   },
   logout({ commit }) {
-    commit('UPDATE_AUTH', false)
+    commit('UPDATE_AUTH', false);
     router.push({ name: 'Home', params: { logout: true } })
   },
   updateUser({ state, commit }, user) {
