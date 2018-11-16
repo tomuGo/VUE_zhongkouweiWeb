@@ -130,7 +130,6 @@
       if (this.blogId) {
         this.getBlog(this.blogId);
       }
-      this.articleId = articleId
     },
     mounted() {
       if (this.isAuth) {
@@ -194,33 +193,7 @@
               this.getBlog(this.blogId)
           })
         }
-      },
-      renderComments(comments) {
-        if (Array.isArray(comments)) {
-          comments = this.recompute('comments')
-          const newComments = comments.map(comment => ({...comment}))
-          const user = this.user || {}
-
-          for (let comment of newComments) {
-            comment.content = SimpleMDE.prototype.markdown(emoji.emojify(comment.content, name => name))
-          }
-
-          this.comments = newComments
-          this.commentsMarkdown = comments
-        }
-      },
-      recompute(key) {
-        const articleId = this.$route.params.articleId
-        // 这里的文章是基于 getters.computedArticles 的，所以包含用户信息了
-        const article = this.$store.getters.getArticleById(articleId)
-        let arr
-
-        if (article) {
-          arr = article[key]
-        }
-
-        return arr || []
-      },
+      }
     }
   }
 </script>

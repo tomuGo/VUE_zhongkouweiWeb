@@ -3,18 +3,18 @@
     <div class="blog-pages">
       <div class="col-md-12 panel">
         <div class="panel-body">
-         <h2 class="text-center">{{ articleId ? '编辑文章' : '创作文章' }}</h2>
+         <h2 class="text-center">创作文章</h2>
           <hr>
           <div data-validator-form>
             <div class="form-group">
-              <input v-model.trim="title" v-validator.required="{ title: '标题' }" type="text" class="form-control" placeholder="请填写标题" @input="saveTitle">
+              <input v-model.trim="titleName" v-validator.required="{ titleName: '标题' }" type="text" class="form-control" placeholder="请填写标题" @input="saveTitle">
             </div>
             <div class="form-group">
               <textarea id="editor"></textarea>
             </div>
             <br>
             <div class="form-group">
-              <button class="btn btn-primary" type="submit" @click="post">发 布</button>
+              <button class="btn btn-primary" type="submit" @click="createBlog">发 布</button>
             </div>
           </div>
         </div>
@@ -26,7 +26,7 @@
 <script>
 import SimpleMDE from 'simplemde'
 import hljs from 'highlight.js'
-import ls from '@/utils/localStorage'
+import axios from '@/plugins/axios'
 
 window.hljs = hljs
 
@@ -34,26 +34,12 @@ export default {
   name: 'Create',
   data() {
     return {
-      title: '', // 文章标题
+      titleName: '', // 文章标题
       content: '', // 文章内容
       articleId: undefined // 文章 ID
     }
   },
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      vm.setArticleId(vm.$route.params.articleId)
-    })
-  },
-  beforeRouteLeave(to, from, next) {
-    this.clearData()
-    next()
-  },
-  watch: {
-    '$route'(to) {
-      this.clearData()
-      this.setArticleId(to.params.articleId)
-    }
-  },
+
   mounted() {
     const simplemde = new SimpleMDE({
       element: document.querySelector('#editor'),
@@ -76,58 +62,21 @@ export default {
     this.simplemde = simplemde
   },
   methods: {
-    saveTitle() {
-      ls.setItem('smde_title', this.title)
-    },
-    fillContent(articleId) {
-      const simplemde = this.simplemde
-      const smde_title = ls.getItem('smde_title')
+    createBlog(){
+      if(this.content!=null && this.content.trim()!=''){
+        let blogDto={
+          blogContent:{
+            sections:{}
+          },
+          blog:{},
+        };
+        axios.post('/blog/blog',blogDto).then(()=>{
 
-      if (articleId !== undefined) {
-        const article = this.$store.getters.getArticleById(articleId)
-
-        if (article) {
-          const { title, content } = article
-
-          this.title = smde_title || title
-          this.content = simplemde.value() || content
-          simplemde.value(this.content)
-        }
-      } else {
-        this.title = smde_title
-        this.content = simplemde.value()
-      }
-    },
-    post() {
-      const title = this.title
-      const content = this.content
-
-      if (title !== '' && content.trim() !== '') {
-        const article = {
-          title,
-          content
-        }
-
-        this.$store.dispatch('post', { article, articleId: this.articleId })
-        this.clearData()
-      }
-    },
-    clearData() {
-      this.title = ''
-      ls.removeItem('smde_title')
-      this.simplemde.value('')
-      this.simplemde.clearAutosavedValue()
-    },
-    setArticleId(articleId) {
-      const localArticleId = ls.getItem('articleId')
-
-      if (articleId !== undefined && !(articleId === localArticleId)) {
-        this.clearData()
+        })
+      }else {
+        //todo
       }
 
-      this.articleId = articleId
-      this.fillContent(articleId)
-      ls.setItem('articleId', articleId)
     }
   }
 }
