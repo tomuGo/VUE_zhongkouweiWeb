@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import time from './time'
+import simpleMarkDown from './simpleMarkDown'
 
 const filters = {
-  time
-}
+  time,
+  simpleMarkDown
+};
 
 // 注册filters到Vue
 for (let key in filters) {

@@ -8,8 +8,9 @@
       </div>
       <div class="entry-content">
         <div class="content-body entry-content panel-body ">
-          <div v-for="section in sections">
-            <div class="markdown-body " v-html="section.content" >
+          <div v-for="section in sections" >
+            <div class="markdown-body" >
+              {{section.content | simpleMarkDown}}
             </div>
             <span style="color: #1EBC30">
               作者：{{section.userId}}
