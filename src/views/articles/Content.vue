@@ -9,8 +9,8 @@
       <div class="entry-content">
         <div class="content-body entry-content panel-body ">
           <div v-for="section in sections" >
-            <div class="markdown-body" >
-              {{section.content | simpleMarkDown}}
+            <div class="markdown-body" v-html="$options.filters.simpleMarkDown(section.content)">
+              <!--{{section.content | simpleMarkDown}}-->
             </div>
             <span style="color: #1EBC30">
               作者：{{section.userId}}
@@ -18,53 +18,9 @@
             <span style="color:darkgreen">{{section.createDate | time('yyyy-MM-DD hh:mm:ss')}}</span><br>
             <span>- - - - - - - - - - - - - - -</span>
           </div>
-
-          <!--<div v-if="false" class="panel-footer operate">
-            <div class="actions">
-              <a @click="deleteArticle" class="admin" href="javascript:;"><i class="fa fa-trash-o"></i></a>
-              <a @click="editArticle" class="admin" href="javascript:;"><i class="fa fa-pencil-square-o"></i></a>
-            </div>
-          </div>-->
         </div>
       </div>
     </div>
-    <!--<div class="votes-container panel panel-default padding-md">
-      <div class="panel-body vote-box text-center">
-        <div class="btn-group">
-          <a @click="like" href="javascript:;" class="vote btn btn-primary popover-with-html" :class="likeClass">
-            <i class="fa fa-thumbs-up"></i> {{ likeClass ? '已赞' : '点赞' }}
-          </a>
-          <div class="or"></div>
-          <button @click="showQrcode = true" class="btn btn-success"><i class="fa fa-heart"></i> 打赏</button>
-        </div>
-        <div class="voted-users">
-          <div class="user-lists">
-          <span v-for="likeUser in likeUsers">
-            &lt;!&ndash; 点赞用户是当前用户时，加上类 animated 和 swing 以显示一个特别的动画  &ndash;&gt;
-            <router-link :to="`/${likeUser.uname}`" :src="likeUser.uavatar" tag="img" class="img-thumbnail avatar avatar-middle" :class="{ 'animated swing' : likeUser.uid === 1 }"></router-link>
-          </span>
-          </div>
-          <div v-if="!likeUsers.length" class="vote-hint">成为第一个点赞的人吧 😄</div>
-        </div>
-      </div>
-    </div>-->
-    <!--<Modal :show.sync="showQrcode" class="text-center">
-      <div v-if="user" slot="blogName">
-        <img :src="user.avatar" class="img-thumbnail avatar" width="48">
-      </div>
-      <div>
-        <p class="text-md">如果你想学习更多前端的知识，VuejsCaff.com 是个不错的开始</p>
-        <div class="payment-qrcode inline-block">
-          <h5>扫一扫打开 VuejsCaff.com</h5>
-          <p>
-            <qrcode-vue value="https://vuejscaff.com/" :size="160"></qrcode-vue>
-          </p>
-        </div>
-      </div>
-      <div slot="footer">
-        <div class="text-center">祝你学习愉快 :)</div>
-      </div>
-    </Modal>-->
     <div class="replies panel panel-default list-panel replies-index">
       <div class="panel-heading">
         <div class="total">

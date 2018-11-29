@@ -3,15 +3,9 @@
     <div class="col-md-9 topics-index main-col">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <!--<div class="navbar-header" >
-            <el-menu  text-color="blue" active-text-color="red" class="el-menu-demo" mode="horizontal" :router="true">
-              <el-menu-item  v-for="(item) in filters" :key="item.name"  :index= "item.path" >{{item.name}}</el-menu-item>
-            </el-menu>
-          </div>-->
-
           <ul class="list-inline topic-filter">
             <li v-for="item in filters">
-                <el-button autofocus round type="item.type" icon="el-icon-menu" size="medium" @click="getBlogs(item.blogType)" v-title="item.title">{{ item.name }}</el-button>
+              <router-link v-title="item.title" style="font-size: large" :to='`/topics?blogType=${item.blogType}`'>{{ item.name }}</router-link>
             </li>
           </ul>
           <div class="clearfix"></div>
@@ -22,15 +16,11 @@
             <li v-for="(article,index) in articles" :key="article.blogId" class="list-group-item" >
               <router-link :to="`/blogs/${article.blogId}`" tag="div" class="reply_count_area hidden-xs pull-right">
                 <div class="count_set">
-                  <span class="count_of_votes" title="投票数">{{ article.likeUsers ? article.likeUsers.length : 0 }}</span>
-                  <span class="count_seperator">/</span>
-                  <span class="count_of_replies" title="回复数">{{ article.comments ? article.comments.length : 0 }}</span>
-                  <span class="count_seperator">|</span>
                   <abbr class="timeago">{{ article.createTime | time('yyyy-MM-DD hh:mm:ss') }}</abbr>
                 </div>
               </router-link>
              <router-link :to="`/${article.uname}`" tag="div" class="avatar pull-left">
-               <img :src="article.uavatar" class="media-object img-thumbnail avatar avatar-middle">
+               <img :src="'https://api.adorable.io/avatars/200/Karen'+index" class="media-object img-thumbnail avatar avatar-middle">
              </router-link>
               <router-link :to="`/blogs/${article.blogId}`" tag="div" class="infos">
                 <div class="media-heading ">
@@ -87,8 +77,18 @@ export default {
       pageNumber:0
     }
   },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.getBlogs(to.query.blogType)
+    })
+  },
   mounted:function () {
     this.getBlogs(1);
+  },
+  watch: {
+    '$route'(to) {
+      this.getBlogs(to.query.blogType)
+    }
   },
   methods: {
     getBlogs(blogType){
