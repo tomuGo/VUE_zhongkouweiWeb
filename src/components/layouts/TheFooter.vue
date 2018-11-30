@@ -1,15 +1,49 @@
 <template>
   <footer class="footer">
     <div class="container">
-      <div class="col-sm-1 col-lg-1 col-lg-offset-5" >
-        <p class="padding-top-xsm">{{description}}</p>
-        <a :href="codeUrl" target="_blank">
-          <img :src="githubImg" v-title="title"/>
-        </a>
-      </div>
-      <div class="col-sm-3 col-lg-3 col-lg-offset-8">
-        <p class="padding-top-xsm">{{author}}</p>
-      </div>
+      <div class="row footer-top">
+        <div class="col-lg-offset-7">
+          <div class="col-sm-1 col-lg-1 ">
+            <a :href="codeUrl" target="_blank">
+              <img :src="githubImg" class="image">
+            </a>
+          </div>
+          <div class="col-sm-1 col-lg-1"></div>
+          <div class="col-sm-1 col-lg-1 ">
+            <a :href="xinlangUrl" target="_blank">
+              <img :src="weibo" class="image">
+            </a>
+          </div>
+          <div class="col-sm-1 col-lg-1"></div>
+          <div class="col-sm-1 col-lg-1 ">
+            <a :href="codeUrl" target="_blank">
+              <img :src="email" class="image">
+            </a>
+          </div>
+        </div>
+
+
+      <!--<el-row>
+        <el-col direction="vertical">
+          <el-card >
+            <a :href="codeUrl" target="_blank">
+              <img :src="githubImg" class="image">
+            </a>
+          </el-card>
+
+          <el-card >
+            <img :src="weibo" class="image">
+          </el-card>
+        </el-col>
+        <el-col>
+          <el-card >
+            <a :href="codeUrl" target="_blank">
+            <img :src="email" class="image">
+            </a>
+          </el-card>
+        </el-col>
+      </el-row>-->
+    </div>
     </div>
   </footer>
 </template>
@@ -25,9 +59,12 @@ export default {
     return {
       description: '源码地址',
       title: '点击查看源码',
-      githubImg:'@/assets/gitHub.png',
+      githubImg:require("@/assets/gitHub.png"),
       codeUrl:'https://github.com/tomuGo',
-      author:'@qiushui'
+      xinlangUrl:'https://weibo.com/5514320708/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1',
+      author:'@qiushui',
+      email:require("@/assets/email.png"),
+      weibo:require("@/assets/xinlangblog.png")
     }
   }
 }
@@ -35,4 +72,5 @@ export default {
 
 <style scoped>
 a:hover, a:focus { color: #e27575; transition: color .15s;}
+.image{height: 30px}
 </style>

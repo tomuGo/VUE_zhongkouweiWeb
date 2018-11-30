@@ -1,11 +1,11 @@
 <template>
   <div class="navbar navbar-default topnav">
     <div class="container">
-      <!--<div class="navbar-header" >
-        <el-menu  text-color="blue" active-text-color="red" class="el-menu-demo" mode="horizontal" :router="true">
-            <el-menu-item  v-for="(item) in titles" :key="item.name" :route="item.path" :index= "item.path" >{{item.name}}</el-menu-item>
-        </el-menu>
-      </div>-->
+      <div class="navbar-header" >
+        <router-link to="/" >
+          <img :src="logo.src" style="height: 50px">
+        </router-link>
+      </div>
 
       <div id="top-navbar-collapse" :class="['collapse', 'navbar-collapse', { in: showCollapsedNav }]">
         <div class="navbar-right">
@@ -39,7 +39,10 @@ export default {
         {title: 'roast', name: '吐槽',path: '/roast'}
       ],
       activeNavIndex: 0,
-      showCollapsedNav: false
+      showCollapsedNav: false,
+      logo: {
+        src: require("@/assets/zhongkouweiLogo.png"),
+      },
     }
   }
 

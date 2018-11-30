@@ -3,48 +3,43 @@
     <div class="panel-heading">
       <h3 class="panel-title">
         <i class="fa fa-search"></i>
-        关于 “<span class="highlight">{{ keyword }}</span>” 的搜索结果, 共 {{ results.length }} 条
-         <div class="pull-right" style="margin-top:-10px">
-          <button v-for="item in filters"
-            :disabled="item.filter === filter"
-            class="btn btn-default btn-sm"
-            href="javascript:;"
-            @click="getArticlesByKeyword(keyword, item.filter)"
-          >
-            <i :class="`fa fa-${item.icon}`"></i>
-            {{ item.title }}
-          </button>
-        </div>
+        关于 “<span class="highlight">{{ keyword }}</span>” 的搜索结果, 共 {{ articles.length }} 条
       </h3>
     </div>
     <div class="panel-body">
-      <div v-for="result in results" class="result">
-        <h2 class="title">
-          <router-link :to="`/articles/${result.articleId}/content`">
-            <span v-html="result.title"></span>
-          </router-link>
-          <small>by</small>
-          <router-link :to="`/${result.uname}`">
-            <img :src="result.uavatar" class="avatar avatar-small">
-            <small>{{ result.uname }}</small></a>
-          </router-link>
-        </h2>
-        <div class="info">
-          <span class="url">
-            <router-link :to="`/articles/${result.articleId}/content`">
-              {{ result.url }}
+      <div class="panel-body remove-padding-horizontal">
+        <ul class="list-group row topic-list">
+          <li v-for="(article,index) in articles" :key="article.blogId" class="list-group-item" >
+            <router-link :to="`/blogs/${article.blogId}`" tag="div" class="reply_count_area hidden-xs pull-right">
+              <div class="count_set">
+                <abbr class="timeago">{{ article.createTime | time('yyyy-MM-DD hh:mm:ss') }}</abbr>
+              </div>
             </router-link>
-          </span>
-          <span class="date">
-            {{ result.date | moment('from', { startOf: 'minute' }) }} ⋅
-            <i class="fa fa-thumbs-o-up"></i> {{ result.likeUsers && result.likeUsers.length || 0 }} ⋅
-            <i class="fa fa-comments-o"></i> {{ result.comments && result.comments.length || 0 }}
-          </span>
-        </div>
-        <div class="desc" v-html="result.content"></div>
-        <hr>
+            <router-link :to="`/${article.uname}`" tag="div" class="avatar pull-left">
+              <img :src="'https://api.adorable.io/avatars/200/Karen'+index" class="media-object img-thumbnail avatar avatar-middle">
+            </router-link>
+            <router-link :to="`/blogs/${article.blogId}`" tag="div" class="infos">
+              <div class="media-heading ">
+                <el-badge v-if="article.boutique===1" value="精" class="item">
+                  {{ article.blogName }}
+                </el-badge>
+                <span v-else>{{ article.blogName }}</span>
+              </div>
+            </router-link>
+          </li>
+        </ul>
       </div>
-      <div v-if="!results.length" class="empty-block">
+      <div class="panel-footer text-right remove-padding-horizontal pager-footer">
+        <el-pagination
+          background
+          layout="total, prev, pager, next, jumper"
+          @current-change="getBlogs"
+          :page-size="pageSize"
+          :page-count="pageNumber"
+          :total="total">
+        </el-pagination>
+      </div>
+      <div v-if="articles" class="empty-block">
         没有任何数据~~
       </div>
     </div>
@@ -52,25 +47,16 @@
 </template>
 
 <script>
+  import axios from '@/plugins/axios'
 export default {
   name: 'Search',
   data() {
     return {
       keyword: '', // 关键字
-      results: [] ,// 搜索结果
-      filter: 'default', // 默认排序方式
-      filters: [ // 排序方式列表
-        {
-          filter: 'default',
-          title: '相关性排序',
-          icon: 'random'
-        },
-        {
-          filter: 'vote',
-          title: '点赞数排序',
-          icon: 'thumbs-up'
-        }
-      ]
+      articles: [] ,// 搜索结果
+      total: 0, // 文章总数
+      pageSize: 20, // 每页条数
+      pageNumber:0
     }
   },
   beforeRouteEnter(to, from, next) {
@@ -90,15 +76,17 @@ export default {
     next()
   },
   methods: {
-     getArticlesByKeyword(keyword, filter) {
-      if (keyword) {
-        this.keyword = keyword
-        // 更新排序方式
-        if (filter) this.filter = filter
-        this.$store.commit('UPDATE_SEARCH_VALUE', keyword)
-        // 传入 filter 参数
-        this.results = this.$store.getters.getArticlesByKeyword(keyword, filter)
-      }
+     getArticlesByKeyword(keyword) {
+       axios.get("/blog/blog", {
+         params: {
+           pageNumber: this.pageNumber,
+           pageSize: this.pageSize,
+           blogName: keyword
+         }
+       }).then((res) => {
+         this.articles = res.resultObject.content;
+         this.total = res.resultObject.totalElements;
+       });
     }
   }
 }

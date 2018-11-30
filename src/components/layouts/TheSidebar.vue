@@ -25,17 +25,17 @@ export default {
       slides: [
         {
           title: '123',
-          img: 'http://img1.imgtn.bdimg.com/it/u=3688350399,4275313700&fm=26&gp=0.jpg',
+          img: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3943735061,2261504406&fm=27&gp=0.jpg',
           link: '/'
         },
         {
           title: '2321',
-          img: 'https://ss0.baidu.com/94o3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=8162d6465482b2b7b89f3fc401accb0a/d009b3de9c82d158ec9917f38d0a19d8bc3e425c.jpg',
+          img: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=484287204,2032345091&fm=111&gp=0.jpg',
           link: '/'
         },
         {
           title: '42312',
-          img: 'https://ss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=57945c6810950a7b6a3548c43ad0625c/c8ea15ce36d3d539ad9c089d3787e950342ab0ce.jpg',
+          img: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2017820637,3454915194&fm=27&gp=0.jpg',
           link: '/'
         }
       ]
