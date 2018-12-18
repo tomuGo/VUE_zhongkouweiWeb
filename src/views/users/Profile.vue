@@ -69,11 +69,10 @@ export default {
     updateUserInfo(e) {
       this.$nextTick(() => {
         if (e.target.canSubmit && this.user.userId) {
-          axios.put('/api/user/'+this.user.userId,this.userInfo).then(()=>{
-            //todo 跳转到个人中心
-            //this.$store.dispatch('login', data.user)
-          })
-
+          axios.put('/api/users/'+this.user.userId,this.userInfo).then(()=>{
+            // 跳转到个人中心
+            this.$router.push({ path:'/'+this.user.userId});
+          });
         }
       })
     }

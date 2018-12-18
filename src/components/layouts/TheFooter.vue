@@ -21,28 +21,6 @@
             </a>
           </div>
         </div>
-
-
-      <!--<el-row>
-        <el-col direction="vertical">
-          <el-card >
-            <a :href="codeUrl" target="_blank">
-              <img :src="githubImg" class="image">
-            </a>
-          </el-card>
-
-          <el-card >
-            <img :src="weibo" class="image">
-          </el-card>
-        </el-col>
-        <el-col>
-          <el-card >
-            <a :href="codeUrl" target="_blank">
-            <img :src="email" class="image">
-            </a>
-          </el-card>
-        </el-col>
-      </el-row>-->
     </div>
     </div>
   </footer>

@@ -13,7 +13,7 @@
               <!--{{section.content | simpleMarkDown}}-->
             </div>
             <span style="color: #1EBC30">
-              作者：{{section.userId}}
+              作者：{{section.authorName}}
             </span><br>
             <span style="color:darkgreen">{{section.createDate | time('yyyy-MM-DD hh:mm:ss')}}</span><br>
             <span>- - - - - - - - - - - - - - -</span>
@@ -24,7 +24,7 @@
     <div class="replies panel panel-default list-panel replies-index">
       <div class="panel-heading">
         <div class="total">
-          楼层数量: <b>{{ blog.sections }}</b>
+          楼层数量: <b>{{ blog.floorNum }}</b>
         </div>
       </div>
     </div>
@@ -131,11 +131,11 @@
     },
     methods: {
       getBlog(blogId){
-        axios.get(`/blog/blog/` + this.blogId).then((res) => {
-          this.blog = res.resultObject.blog;
-          this.blogContent = res.resultObject.blogContent;
-          this.sections = res.resultObject.blogContent.sections;
-          this.blogName = res.resultObject.blog.blogName;
+        axios.get(`/api/blogs/` + this.blogId).then((res) => {
+          this.blog = res.data;
+          this.blogContent = res.blogContent;
+          this.sections = res.data.floors;
+          this.blogName = res.data.blogName;
         })
       },
       save() {
@@ -145,7 +145,7 @@
         // 编辑器的内容不为空时
         console.log("dqw"+this.commentMarkdown)
         if (this.commentMarkdown && this.commentMarkdown.trim() !== '') {
-          axios.post('/blog/blog/'+this.blogId+'/addSection',section).then((res)=>{
+          axios.post('/api/blogs/'+this.blogId+'/addFloor',section).then((res)=>{
             this.simplemde.value('');
               this.getBlog(this.blogId)
           })

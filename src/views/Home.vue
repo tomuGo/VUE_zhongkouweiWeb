@@ -75,7 +75,7 @@ export default {
       ],
       total: 0, // 文章总数
       pageSize: 20, // 每页条数
-      pageNumber:0
+      pageNumber:1
     }
   },
   beforeRouteEnter(to, from, next) {
@@ -93,15 +93,15 @@ export default {
       if (blogType == null || blogType == undefined || blogType == '') {
         blogType = 1;
       }
-      axios.get("/blog/blog", {
+      axios.get("/api/blogs", {
         params: {
           pageNumber: this.pageNumber,
           pageSize: this.pageSize,
           blogType: blogType
         }
       }).then((res) => {
-        this.articles = res.resultObject.content;
-        this.total = res.resultObject.totalElements;
+        this.articles = res.data.list;
+        this.total = res.data.count;
       });
     }
   }

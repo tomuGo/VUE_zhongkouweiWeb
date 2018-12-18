@@ -61,7 +61,7 @@ export default {
       renderingConfig: {
         codeSyntaxHighlighting: true
       }
-    })
+    });
 
     simplemde.codemirror.on('change', () => {
       this.content = simplemde.value()
@@ -79,15 +79,16 @@ export default {
       })
     },
     submit(){
+      debugger
       if(this.content!=null && this.content.trim()!=''){
-        let addBlog={
+        let blogDTO={
           blogName:this.titleName,
           blogType:this.blogType,
-          content:this.content
+          floorOne:this.content
         };
-        axios.post('/blog/blog',addBlog).then(()=>{
+        axios.post('/api/blogs',blogDTO).then(()=>{
           this.$router.push({name:'Home',params:{blogType:this.blogType}})
-        })
+        });
       }else {
         //todo
         alert("qe")
