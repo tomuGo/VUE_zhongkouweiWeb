@@ -37,6 +37,7 @@
 
 <script>
 import axios from '@/plugins/axios'
+import {mapState} from 'vuex'
 export default {
   name: 'EditPassword',
   data() {
@@ -47,12 +48,23 @@ export default {
 
     }
   },
+  computed: {
+    ...mapState([
+      'user'
+    ])
+  },
   methods: {
     updatePassword(e) {
+      let RegisterUser = {
+        userId: this.user.userId,
+        oldPassword: this.oldPassword,
+        newPassword: this.newPassword
+      };
       this.$nextTick(() => {
+        console.log(this.user.userId)
         if (e.target.canSubmit) {
-            axios.get(`/api/user/${this.$route.params.id}/updatePassword`,{params: {oldPassword: this.oldPassword, newPassword: this.newPassword}}).then(()=>{
-              //todo 跳哪里呢
+            axios.put(`/api/users/updatePassword`,RegisterUser).then(()=>{
+              this.$router.push({ path:'/'+this.user.userId});
             })
         }
       })

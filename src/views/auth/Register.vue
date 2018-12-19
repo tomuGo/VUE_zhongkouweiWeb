@@ -62,12 +62,12 @@
         })
       },
       submit() {
-        let userInfo = {
+        let RegisterUser = {
           username: this.username,
           email: this.email,
           password: this.password
         };
-        axios.post("/api/user", userInfo).then(() => {
+        axios.post(`/api/register`, RegisterUser).then(() => {
           axios.get(`/api/login`, {params: {account: this.username, password: this.password}}).then((data) => {
             this.$store.dispatch('login', data.data);
           });
