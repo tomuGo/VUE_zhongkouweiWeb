@@ -63,8 +63,10 @@ export default {
       this.$nextTick(() => {
         console.log(this.user.userId)
         if (e.target.canSubmit) {
-            axios.put(`/api/users/updatePassword`,RegisterUser).then(()=>{
-              this.$router.push({ path:'/'+this.user.userId});
+            axios.put(`/api/users/updatePassword`,RegisterUser).then((res)=>{
+              if(res.status===200){
+                this.$router.push({ path:'/'+this.user.userId});
+              }
             })
         }
       })

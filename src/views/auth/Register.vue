@@ -13,9 +13,9 @@
                    type="text" class="form-control" placeholder="请填写用户名">
           </div>
           <div class="form-group">
-            <label class="control-label">邮箱（用于找回密码）</label>
+            <label class="control-label">邮箱（用于找回密码）</label><span style="color: red"> * </span>
             <input v-model.trim="email"
-                   v-validator:input="{ regex: /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/, error: '邮箱不符合格式' }"
+                   v-validator:input.required="{ regex: /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/, error: '邮箱不符合格式' }"
                    type="text" class="form-control">
           </div>
           <div class="form-group">
@@ -40,7 +40,7 @@
 
 <script>
   import axios from '@/plugins/axios'
-
+  import {setCookie} from '@/utils/util'
   export default {
     name: 'Register',
     data() {
@@ -67,10 +67,13 @@
           email: this.email,
           password: this.password
         };
-        axios.post(`/api/register`, RegisterUser).then(() => {
-          axios.get(`/api/login`, {params: {account: this.username, password: this.password}}).then((data) => {
-            this.$store.dispatch('login', data.data);
-          });
+        axios.post(`/api/register`, RegisterUser).then((res) => {
+          if(res.status===200){
+            axios.get(`/api/login`, {params: {account: this.username, password: this.password}}).then((data) => {
+              setCookie('token', data.headers.token);
+              this.$store.dispatch('login', data.data);
+            });
+          }
         });
       }
     }
