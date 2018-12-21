@@ -1,69 +1,94 @@
 <template>
   <div class="col-md-9 left-col">
     <div class="panel panel-default padding-md">
-      <el-upload
-        name="imageUrl"
-        class="avatar-uploader"
-        :action="`/api/user/${this.$route.params.id}/uploadPic`"
-        :show-file-list="false"
-        :on-success="handleAvatarSuccess"
-        :before-upload="beforeAvatarUpload">
-        <img v-if="imageUrl" :src="imageUrl" class="avatar">
-        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+      <el-table :data="faces1"  style="width: 100%" :show-header="false" :highlight-current-row="true">
+        <el-table-column prop="colum1" label="第一列头像" >
+          <template slot-scope="scope">
+            <el-radio v-model="radio" :label="scope.row.colum1.flag">
+              <img :src="scope.row.colum1.url"  class="avatar"/>
+            </el-radio>
 
-      </el-upload>
-      <el-button size="small" type="primary" @click="uploadPic">点击上传</el-button>
-        <!--<div class="panel-body">
-            <h2><i class="fa fa-picture-o"></i> 请输入头像地址</h2>
-        <hr>
-        <div data-validator-form>
-          <div class="form-group">
-            <label>头像预览：</label>
-            <div>
-              <img :src="avatar" class="avatar-preview-img">
-            </div>
-          </div>
-          <div class="form-group row">
-            <div class="col-md-8">
-              <input v-model.trim.lazy="avatar" v-validator.required="{ title: '头像地址' }" type="image" class="form-control avatar-input">
-            </div>
-            <div class="clearfix"></div>
-          </div>
-
-          <div class="form-group">
-            <button type="submit" class="btn btn-lg btn-primary" @click="updateAvatar">上传头像</button>
-          </div>
-        </div>
-        </div>-->
+          </template>
+        </el-table-column>
+        <el-table-column prop="colum2" label="第二列头像" >
+          <template slot-scope="scope">
+            <el-radio v-model="radio" :label="scope.row.colum2.flag">
+            <img :src="scope.row.colum2.url"  class="avatar"/>
+            </el-radio>
+          </template>
+        </el-table-column>
+        <el-table-column prop="colum3" label="第三列头像" >
+          <template slot-scope="scope">
+            <el-radio v-model="radio" :label="scope.row.colum3.flag">
+            <img :src="scope.row.colum3.url"  class="avatar"/>
+            </el-radio>
+          </template>
+        </el-table-column>
+        <el-table-column prop="colum4" label="第四列头像" >
+          <template slot-scope="scope">
+            <el-radio v-model="radio" :label="scope.row.colum4.flag">
+            <img :src="scope.row.colum4.url"  class="avatar"/>
+            </el-radio>
+          </template>
+        </el-table-column>
+      </el-table>
     </div>
+    <el-button type="primary" @click="updateFace">确认头像</el-button>
   </div>
 </template>
 
 <script>
 import axios from '@/plugins/axios'
+import {mapState} from 'vuex'
 export default {
   name: 'EditAvatar',
   data() {
     return {
-      imageUrl: ''
+      faces1:[
+        {"colum1":{"flag":"1",url:require("@/assets/face/1.png")},
+          "colum2":{"flag":"2",url:require("@/assets/face/2.png")},
+          "colum3":{"flag":"3",url:require("@/assets/face/3.png")},
+          "colum4":{"flag":"4",url:require("@/assets/face/4.png")},
+        },
+        {"colum1":{"flag":"5",url:require("@/assets/face/5.png")},
+          "colum2":{"flag":"6",url:require("@/assets/face/6.png")},
+          "colum3":{"flag":"7",url:require("@/assets/face/7.png")},
+          "colum4":{"flag":"8",url:require("@/assets/face/8.png")},
+        },
+        {"colum1":{"flag":"9",url:require("@/assets/face/9.png")},
+          "colum2":{"flag":"10",url:require("@/assets/face/10.png")},
+          "colum3":{"flag":"11",url:require("@/assets/face/11.png")},
+          "colum4":{"flag":"12",url:require("@/assets/face/12.png")},
+        },
+        {"colum1":{"flag":"13",url:require("@/assets/face/13.png")},
+          "colum2":{"flag":"14",url:require("@/assets/face/14.png")},
+          "colum3":{"flag":"15",url:require("@/assets/face/15.png")},
+          "colum4":{"flag":"16",url:require("@/assets/face/16.png")},
+        },
+      ],
+
+      radio:"1",
+      userInfo:'',
     };
   },
+  computed: {
+    ...mapState([
+      'user'
+    ])
+  },
   methods: {
-    handleAvatarSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw);
-    },
-    beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/jpeg';
-      const isLt2M = file.size / 1024 / 1024 < 2;
+    updateFace(){
+      let userInfo={userId:this.user.userId,
+        picUrl:this.radio
+      }
+      axios.put('/api/users/'+this.user.userId,userInfo).then((res)=>{
+        // 跳转到个人中心
+        if(res.status===200){
+          this.$router.push({ path:'/'+this.user.userId});
+        }
+      });
 
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!');
-      }
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!');
-      }
-      return isJPG && isLt2M;
-    }
+    },
   }
 
 
@@ -90,9 +115,13 @@ export default {
     text-align: center;
   }
   .avatar {
-    width: 178px;
-    height: 178px;
+    width: 80px;
+    height: 80px;
     display: block;
+    float: left;
+  }
+  .qwe{
+    float:left;display:inline;
   }
 </style>
 .avatar-preview-img { min-width: 200px; min-height: 200px; max-width: 50%;}

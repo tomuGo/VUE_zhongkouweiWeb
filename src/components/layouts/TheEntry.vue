@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar-right">
+  <div >
     <ul v-if="isAuth" class="nav navbar-nav github-login">
       <li>
         <a v-dropdown href="javascript:;">

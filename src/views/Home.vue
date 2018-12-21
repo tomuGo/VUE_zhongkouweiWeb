@@ -12,26 +12,28 @@
         </div>
 
         <div class="panel-body remove-padding-horizontal">
-          <ul class="list-group row topic-list">
-            <li v-for="(article,index) in articles" :key="article.blogId" class="list-group-item" >
-              <router-link :to="`/blogs/${article.blogId}`" tag="div" class="reply_count_area hidden-xs pull-right">
-                <div class="count_set">
-                  <abbr class="timeago">{{ article.createTime | time('yyyy-MM-DD hh:mm:ss') }}</abbr>
-                </div>
-              </router-link>
-             <router-link :to="`/${article.uname}`" tag="div" class="avatar pull-left">
-               <img :src="'https://api.adorable.io/avatars/200/Karen'+index" class="media-object img-thumbnail avatar avatar-middle">
-             </router-link>
-              <router-link :to="`/blogs/${article.blogId}`" tag="div" class="infos">
-                <div class="media-heading ">
-                  <el-badge v-if="article.boutique===1" value="精" class="item">
-                    {{ article.blogName }}
-                  </el-badge>
-                  <span v-else>{{ article.blogName }}</span>
-                </div>
-              </router-link>
-            </li>
-          </ul>
+            <el-table :data="articles" :stripe='true' style="width: 100%" :show-header="false" :highlight-current-row="true">
+              <el-table-column  label="内容" >
+                <template slot-scope="scope">
+                  <router-link :to="`/${scope.row.author}`" tag="div" class="avatar pull-left">
+                    <img :src="require('@/assets/face/'+scope.row.author+'.png')" class="media-object img-thumbnail avatar avatar-small">
+                  </router-link>
+                  <router-link :to="`/blogs/${scope.row.blogId}`" tag="div" >
+                      <el-badge v-if="scope.row.boutique===1" value="精" class="item">
+                        {{ scope.row.blogName }}
+                      </el-badge>
+                      <span v-else>{{ scope.row.blogName }}</span>
+                  </router-link>
+                </template>
+              </el-table-column>
+
+              <el-table-column  label="时间" width="180">
+                <template slot-scope="scope">
+                  <i class="el-icon-time"></i>
+                  <abbr class="timeago">{{ scope.row.createTime | time('yyyy-MM-DD') }}</abbr>
+                </template>
+              </el-table-column>
+            </el-table>
         </div>
         <div class="panel-footer text-right remove-padding-horizontal pager-footer">
           <el-pagination
@@ -89,6 +91,7 @@ export default {
     }
   },
   methods: {
+
     getBlogs(blogType) {
       if (blogType == null || blogType == undefined || blogType == '') {
         blogType = 1;
@@ -111,4 +114,8 @@ export default {
 <style scoped>
 .color{background-color: #afd9ee}
 .colorS{background-color:#06b3b4}
+.item {
+  margin-top: 10px;
+  margin-right: 40px;
+}
 </style>

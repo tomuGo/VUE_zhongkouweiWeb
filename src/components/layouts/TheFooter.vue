@@ -3,6 +3,11 @@
     <div class="container">
       <div class="row footer-top">
         <div class="col-lg-offset-7">
+          <div class="col-sm-4 col-lg-4 ">
+            <a style="">
+              联系作者：
+            </a>
+          </div>
           <div class="col-sm-1 col-lg-1 ">
             <a :href="codeUrl" target="_blank">
               <img :src="githubImg" class="image">

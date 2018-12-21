@@ -1,18 +1,24 @@
 <template>
   <div class="navbar navbar-default topnav">
     <div class="container">
-      <div class="navbar-header" >
+      <div class="navbar-header col-sm-4 col-lg-4" >
         <router-link to="/" >
           <img :src="logo.src" style="height: 50px">
         </router-link>
       </div>
+      <div class="navbar-header col-sm-4 col-lg-4">
+        <SearchInput/>
+      </div>
+      <div class="col-sm-4 col-lg-4 col-md-4">
+        <TheEntry/>
+      </div>
 
-      <div id="top-navbar-collapse" :class="['collapse', 'navbar-collapse', { in: showCollapsedNav }]">
-        <div class="navbar-right">
+      <!--<div id="top-navbar-collapse" :class="['collapse', 'navbar-collapse', { in: showCollapsedNav },'col-sm-1 col-lg-1']">
+        <div>
           <SearchInput/>
           <TheEntry/>
         </div>
-      </div>
+      </div>-->
     </div>
   </div>
 </template>
