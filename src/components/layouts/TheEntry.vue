@@ -17,7 +17,7 @@
       <li>
         <a v-dropdown href="javascript:;">
           <span v-if="user">
-            <img v-if="user.avatar" :src="user.avatar" class="avatar-topnav">
+            <img v-if="user.picUrl" :src="require('@/assets/face/'+user.picUrl+'.png')" class="avatar-topnav">
             <span v-if="user.username">{{ user.username }}</span>
           </span>
           <span v-else>who am I</span>

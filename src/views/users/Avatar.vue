@@ -84,6 +84,8 @@ export default {
       axios.put('/api/users/'+this.user.userId,userInfo).then((res)=>{
         // 跳转到个人中心
         if(res.status===200){
+          this.user.picUrl=this.radio;
+          mutations.UPDATE_USER('UPDATE_USER', user);
           this.$router.push({ path:'/'+this.user.userId});
         }
       });

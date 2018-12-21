@@ -16,7 +16,7 @@
               <el-table-column  label="内容" >
                 <template slot-scope="scope">
                   <router-link :to="`/${scope.row.author}`" tag="div" class="avatar pull-left">
-                    <img :src="require('@/assets/face/'+scope.row.author+'.png')" class="media-object img-thumbnail avatar avatar-small">
+                    <img :src="require('@/assets/face/'+getUserPicUrl(scope.row.author)+'.png')" class="media-object img-thumbnail avatar avatar-small">
                   </router-link>
                   <router-link :to="`/blogs/${scope.row.blogId}`" tag="div" >
                       <el-badge v-if="scope.row.boutique===1" value="精" class="item">
@@ -77,7 +77,8 @@ export default {
       ],
       total: 0, // 文章总数
       pageSize: 20, // 每页条数
-      pageNumber:1
+      pageNumber:1,
+      pic:'',
     }
   },
   beforeRouteEnter(to, from, next) {
@@ -106,7 +107,14 @@ export default {
         this.articles = res.data.list;
         this.total = res.data.count;
       });
-    }
+    },
+    getUserPicUrl(userId){
+      let picUrl="1";
+      axios.get('/api/users/'+userId).then((res)=>{
+        picUrl=res.data.picUrl;
+      });
+      return picUrl;
+    },
   }
 }
 </script>
