@@ -109,11 +109,13 @@ export default {
       });
     },
     getUserPicUrl(userId){
-      let picUrl="1";
+      console.log("qwe"+userId);
       axios.get('/api/users/'+userId).then((res)=>{
-        picUrl=res.data.picUrl;
+        return res.data.picUrl;
       });
-      return picUrl;
+      console.log("cdd")
+      return "1";
+
     },
   }
 }

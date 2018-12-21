@@ -79,7 +79,6 @@ export default {
       })
     },
     submit(){
-      debugger
       if(this.content!=null && this.content.trim()!=''){
         let blogDTO={
           blogName:this.titleName,
