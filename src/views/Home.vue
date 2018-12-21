@@ -22,7 +22,10 @@
                       <el-badge v-if="scope.row.boutique===1" value="精" class="item">
                         {{ scope.row.blogName }}
                       </el-badge>
-                      <span v-else>{{ scope.row.blogName }}</span>
+                    <el-badge v-else class="item">
+                      <span  style="font-size: larger">{{ scope.row.blogName }}</span>
+                    </el-badge>
+
                   </router-link>
                 </template>
               </el-table-column>
@@ -63,9 +66,6 @@ export default {
   },
   data() {
     return {
-      msg: '',
-      msgType: '',
-      msgShow: false,
       articles: [],
       filter: 'default',
       filters: [
@@ -122,8 +122,6 @@ export default {
 </script>
 
 <style scoped>
-.color{background-color: #afd9ee}
-.colorS{background-color:#06b3b4}
 .item {
   margin-top: 10px;
   margin-right: 40px;

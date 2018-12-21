@@ -39,6 +39,7 @@
 
 <script>
 import axios from '@/plugins/axios'
+import ls from '@/utils/localStorage'
 import {mapState} from 'vuex'
 export default {
   name: 'EditAvatar',
@@ -85,7 +86,7 @@ export default {
         // 跳转到个人中心
         if(res.status===200){
           this.user.picUrl=this.radio;
-          mutations.UPDATE_USER('UPDATE_USER', user);
+          ls.setItem('user',this.user);
           this.$router.push({ path:'/'+this.user.userId});
         }
       });
